@@ -1,6 +1,6 @@
 # Heureka Health
 
-Heureka erlaubt Drittanbietern (_Heureka Services_) den sicheren Zugriff auf eine [FHIR (v4)](https://www.hl7.org/fhir/R4/) kompatible API Schnittstelle, um auf freigegebene Daten aus dem Primärsystem einer  Arztpraxis (Healthcare Provider, _HCP_) zuzugreifen.
+Heureka erlaubt Drittanbietern (_Heureka Services_) den sicheren Zugriff auf eine [FHIR (v4)](https://www.hl7.org/fhir/R4/) kompatible API Schnittstelle, um auf freigegebene Daten aus dem Primärsystem einer Arztpraxis (Healthcare Provider, _HCP_) zuzugreifen.
 
 ## Service Registrierung
 
@@ -182,15 +182,18 @@ sequenceDiagram
 
 ## API Verwendung
 
-Nachdem der Service den Autorisierungsvorgang für eine Praxis erfolgreich abgeschlossen und damit ein gültiges Accesstoken erhalten hat können Requests gegen die API ausgeführt werden.
+Nachdem der Service den Autorisierungsvorgang für eine Praxis erfolgreich abgeschlossen und damit ein gültiges Access-Token erhalten hat können Requests gegen die API ausgeführt werden.
 
 Die Peer-to-peer Architektur von Heureka ermöglicht den direkten und sicheren Zugriff auf die Daten des Praxisinformationssystems in dem alle Anfragen via eines Proxy-Setups direkt auf das Primärsystem gelangen.
 
+### <a name="api_configuration"></a>API Konfiguration
 
-### API Konfiguration
+Der API-Konfiguration Endpunkt liefert zusammen mit der HCP-spezifischen URL für die FHIR API auch die Proxykonfiguration zurück, welche für Requests gegen die FHIR-API verwendet werden muss.
+Ausserdem enthält die API-Konfiguration die aktuell für die Installation gültigen Berechtigungen (Grants).
 
-Der API-Konfigurationsendpunkt liefert zusammen mit der HCP-spezifischen URL für die FHIR API auch die Proxykonfiguration zurück, welche für Requests gegen die FHIR-API verwendet werden muss.
-Ausserdem enthält die API-Konfiguration die aktuell für die Installation gültigen Berechigungen (Grants).
+Dieser Endpunkt liefert immer die **aktuell gültigen** Berechtigungen für das verwendete Token zurück. Er sollte dazu verwendet werden, um jederzeit sicherzustellen, dass der Service die erforderlichen Berechtigungen besitzt.
+
+Als Best Practice wird empfohlen, die gültigen Berechtigungen vor der ersten User-Interaktion zu überprüfen, um damit sicherzustellen, dass nachfolgende API Zugriffe erlaubt sind.
 
 ```json
 {
