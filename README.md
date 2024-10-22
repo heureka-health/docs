@@ -2,7 +2,7 @@
 
 Heureka erlaubt Drittanbietern (_Heureka Services_) den sicheren Zugriff auf eine [FHIR (v4)](https://www.hl7.org/fhir/R4/) kompatible API Schnittstelle, um auf freigegebene Daten aus dem Primärsystem einer  Arztpraxis (Healthcare Provider, _HCP_) zuzugreifen.
 
-## Onboarding
+## Service Registrierung
 
 Um die Heureka API verwenden zu können, benötigt ein Service ein gültiges mTLS Client-Zertifikat sowie eine Freigabe der verwendeten Server-IP.
 Ausserdem benötigt wird die Service-ID und es muss eine gültige Redirect-URI für den Authentisierungsvorgang eingerichtet sein, zudem müssen die entsprechenden [Request Context Parameter](#access_logging) definiert sein.
@@ -17,12 +17,12 @@ Heureka betreibt neben dem Produktivsystem eine Testumgebung gegen welche sämtl
 | Token (mTLS)             | token.heureka.health  | token.testing.heureka.health  |
 | API (mTLS)               | api.heureka.health    | api.testing.heureka.health    |
 
-## Authorisierung
+## Autorisierung
 
 ### Zugriff Beantragen
 
 Die Zugriffsfreigabe findet direkt zwischen einer der Praxis zugeordneten Person (HCP) und dem Heureka Service statt.
-Dazu bietet Heureka einen OAuth2 kompatiblen Authorization Code Flow an, mit welchem die Datenfreigabe und die damit verbundene Ausstellung der notwendigen Accesstoken initiiert wird.
+Dazu bietet Heureka einen OAuth2 kompatiblen Authorization Code Flow an, mit welchem die Datenfreigabe und die damit verbundene Ausstellung der notwendigen Access-Token initiiert wird.
 
 Um den Authentisierungsvorgang einzuleiten, muss der Benutzer auf folgende URL geleitet werden.
 
@@ -37,6 +37,12 @@ https://portal.testing.heureka.health/authorization/grant?client_id=CLIENT_ID&st
 | client_id     | Client ID des Service                                                                 |   
 | state         | Optionales CSRF state token welches nach dem Redirect überprüft werden sollte         |
 | redirect_uri  | URI auf welche nach erfolgreicher oder abgelehnter Authorisierung weitergeleitet wird |
+
+#### Redirect Error Codes
+
+Falls bei der Autorisierung ein Fehler auftritt, enthält die `redurect_uri` einen `error` Query-Parameter mit einem entsprechenden [Fehlercode](https://www.oauth.com/oauth2-servers/server-side-apps/possible-errors/).
+
+---
 
 Diese öffnet den Heureka-Authentisierungsdialog, in welchem sich der Praxisbenutzer anmelden und die vom Service benötigten Berechtigungen einsehen und bestätigen kann.
 
@@ -56,7 +62,7 @@ curl -v --cert client.crt --key client.key -X POST "https://token.testing.heurek
 | grant_type   | Aktuell unterstützt wird `authorization_code`               |
 | redirect_uri | Redirect URL die für den initialen request verwendet wurde. |
 | code         | Authorization code aus dem vorherigen Schritt               |
-
+ 
 #### Response
 
 ```json
@@ -100,7 +106,7 @@ curl -v --cert client.crt --key client.key -X POST "https://token.testing.heurek
 
 ### Berechtigungen Aktualisieren
 
-Beim Authorisierungsschritt erteilt der/die Benutzer:in dem Service Zugriff auf bestimmte Ressourcen (Bspw. Patientendaten, Medikation, etc.). Diese werden im Rahmen des Onboarding zwischen Service & Heureka definiert. Des Weiteren können, auch im Nachhinein, optionale Berechtigungen definiert werden, welche zusätzlich freigegeben werden können.
+Beim Autorisierungsschritt erteilt der/die Benutzer:in dem Service Zugriff auf bestimmte Ressourcen (Bspw. Patientendaten, Medikation, etc.). Diese werden im Rahmen des Onboarding zwischen Service & Heureka definiert. Des Weiteren können, auch im Nachhinein, optionale Berechtigungen definiert werden, welche zusätzlich freigegeben werden können.
 
 Wenn der Service nachträglich zusätzliche Berechtigungen anfordern (oder abgeben) möchte ist dies möglich, indem der Benutzer auf die folgende Seite geleitet wird auf der/die Benutzer:in zusätzliche Berechtigungen vergeben oder Berechtigungen entziehen.
 
@@ -115,6 +121,13 @@ https://portal.testing.heureka.health/authorization/update?installation_id=INSTA
 | installation_id | Installation ID aus dem Access Token                   |   
 | redirect_uri    | URI an die nach erfolgter Freigabe weitergeleitet wird |
 
+#### Redirect Error Codes
+
+Falls bei der Autorisierung ein Fehler auftritt, enthält die `redurect_uri` einen `error` Query-Parameter mit einem entsprechenden [Fehlercode](https://www.oauth.com/oauth2-servers/server-side-apps/possible-errors/).
+
+Wird der Vorgang abgebrochen, enthält der `error` Parameter den Wert `cancelled`.
+
+--- 
 
 Benutzer:innen haben immer auch die Möglichkeit, via Heureka Portal einem Service die Berechtigung zu entziehen.
 
@@ -141,12 +154,20 @@ https://portal.testing.heureka.health/authorization/revoke?installation_id=INSTA
 
 #### Request Parameter
 
-| Name            | Beschreibung                                   | 
-|-----------------|------------------------------------------------|
-| installation_id | Installation ID aus dem Access Token           |   
-| redirect_uri    | URI an die nach dem Entzug weitergeleitet wird |
+| Name            | Beschreibung                                                   | 
+|-----------------|----------------------------------------------------------------|
+| installation_id | Installation ID aus dem Access Token                           |   
+| redirect_uri    | URI an die nach dem Trennen der Verbindung weitergeleitet wird |
 
-Benutzer:innen haben immer auch die Möglichkeit dies aus dem Heureka Portal zu machen.
+#### Redirect Error Codes
+
+Falls bei der Autorisierung ein Fehler auftritt, enthält die `redurect_uri` einen `error` Query-Parameter mit einem entsprechenden [Fehlercode](https://www.oauth.com/oauth2-servers/server-side-apps/possible-errors/).
+
+Wird der Vorgang abgebrochen, enthält der `error` Parameter den Wert `cancelled`.
+
+---
+
+Benutzer:innen haben immer auch die Möglichkeit die Verbindung aus dem Heureka Portal zu trennen.
 
 ```mermaid
 sequenceDiagram
@@ -161,7 +182,7 @@ sequenceDiagram
 
 ## API Verwendung
 
-Nachdem der Service den Authorisierungsvorgang für eine Praxis erfolgreich abgeschlossen und damit ein gültiges Accesstoken erhalten hat können Requests gegen die API ausgeführt werden.
+Nachdem der Service den Autorisierungsvorgang für eine Praxis erfolgreich abgeschlossen und damit ein gültiges Accesstoken erhalten hat können Requests gegen die API ausgeführt werden.
 
 Die Peer-to-peer Architektur von Heureka ermöglicht den direkten und sicheren Zugriff auf die Daten des Praxisinformationssystems in dem alle Anfragen via eines Proxy-Setups direkt auf das Primärsystem gelangen.
 
