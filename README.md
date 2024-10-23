@@ -5,7 +5,7 @@ Heureka erlaubt Drittanbietern (_Heureka Services_) den sicheren Zugriff auf ein
 ## Service Registrierung
 
 Um die Heureka API verwenden zu können, benötigt ein Service ein gültiges mTLS Client-Zertifikat sowie eine Freigabe der verwendeten Server-IP.
-Ausserdem benötigt wird die Service-ID und es muss eine gültige Redirect-URI für den Authentisierungsvorgang eingerichtet sein, zudem müssen die entsprechenden [Request Context Parameter](#access_logging) definiert sein.
+Ausserdem benötigt wird die Service-ID und es muss eine gültige Redirect-URI für den Authentisierungsvorgang eingerichtet sein, zudem müssen die entsprechenden [Request Context Parameter](#access-logging) definiert sein.
 
 ### Betriebsumgebungen
 
@@ -46,7 +46,7 @@ Falls bei der Autorisierung ein Fehler auftritt, enthält die `redurect_uri` ein
 
 Diese öffnet den Heureka-Authentisierungsdialog, in welchem sich der Praxisbenutzer anmelden und die vom Service benötigten Berechtigungen einsehen und bestätigen kann.
 
-Anschliessend findet ein Redirect auf die im initialen Request angegebene Redirect-URL statt, welche den Code (Query Parameter `code`) enthält, der gegen ein kurzlebiges Access- und ein langlebiges Refreshtoken eingetauscht werden kann.
+Anschliessend findet ein Redirect auf die im initialen Request angegebene Redirect-URL statt, welche den Code (Query Parameter `code`) enthält, der gegen ein kurzlebiges Access- und ein langlebiges Refresh-Token eingetauscht werden kann.
 
 Der folgende und alle weiteren Aufrufe gegen die APIs von Heureka erfordern eine Authentisierung via mTLS.
 
@@ -94,11 +94,11 @@ sequenceDiagram
 
 #### Installation ID
 
-Das Accesstoken enthält einen Claim `sub` welcher die **Installations ID** beinhaltet. Diese ID bezeichnet eindeutig die Freigabe der jeweiligen Praxis für den Service und sollte serviceseitig zusammen mit dem Access- und Refreshtoken abgelegt werden. Die Installation ID wird wieder benötigt, um die Berechtigungs-Flows zu starten oder um Webhooks empfangen zu können.
+Das Access-Token enthält einen Claim `sub` welcher die **Installations ID** beinhaltet. Diese ID bezeichnet eindeutig die Freigabe der jeweiligen Praxis für den Service und sollte serviceseitig zusammen mit dem Access- und Refresh-Token abgelegt werden. Die Installation ID wird wieder benötigt, um die Berechtigungs-Flows zu starten oder um Webhooks empfangen zu können.
 
 #### Token-Refresh
 
-Access Tokens sind kurzlebig und müssen daher mithilfe des Refresh-Tokens nach Ablauf erneuert werden.
+Access-Tokens sind kurzlebig und müssen daher mithilfe des Refresh-Tokens nach Ablauf erneuert werden.
 
 ```bash
 curl -v --cert client.crt --key client.key -X POST "https://token.testing.heureka.health/oauth2/token" -d "grant_type=refresh_token" -d "client_id=SERVICE_ID" -d "refresh_token=REFRESH_TOKEN"
@@ -118,7 +118,7 @@ https://portal.testing.heureka.health/authorization/update?installation_id=INSTA
 
 | Name            | Beschreibung                                           | 
 |-----------------|--------------------------------------------------------|
-| installation_id | Installation ID aus dem Access Token                   |   
+| installation_id | Installation ID aus dem Access-Token                   |   
 | redirect_uri    | URI an die nach erfolgter Freigabe weitergeleitet wird |
 
 #### Redirect Error Codes
@@ -156,7 +156,7 @@ https://portal.testing.heureka.health/authorization/revoke?installation_id=INSTA
 
 | Name            | Beschreibung                                                   | 
 |-----------------|----------------------------------------------------------------|
-| installation_id | Installation ID aus dem Access Token                           |   
+| installation_id | Installation ID aus dem Access-Token                           |   
 | redirect_uri    | URI an die nach dem Trennen der Verbindung weitergeleitet wird |
 
 #### Redirect Error Codes
@@ -188,12 +188,14 @@ Die Peer-to-peer Architektur von Heureka ermöglicht den direkten und sicheren Z
 
 ### <a name="api_configuration"></a>API Konfiguration
 
-Der API-Konfiguration Endpunkt liefert zusammen mit der HCP-spezifischen URL für die FHIR API auch die Proxykonfiguration zurück, welche für Requests gegen die FHIR-API verwendet werden muss.
+Der API-Konfiguration-Endpunkt liefert zusammen mit der HCP-spezifischen URL für die FHIR-API auch die Proxykonfiguration zurück, welche für Requests gegen die FHIR-API verwendet werden muss.
 Ausserdem enthält die API-Konfiguration die aktuell für die Installation gültigen Berechtigungen (Grants).
 
-Dieser Endpunkt liefert immer die **aktuell gültigen** Berechtigungen für das verwendete Token zurück. Er sollte dazu verwendet werden, um jederzeit sicherzustellen, dass der Service die erforderlichen Berechtigungen besitzt.
+Dieser Endpunkt liefert immer die **aktuell gültigen** Berechtigungen für das verwendete Token zurück. Er sollte dazu verwendet werden, um sicherzustellen, dass der Service die erforderlichen Berechtigungen besitzt.
 
-Als Best Practice wird empfohlen, die gültigen Berechtigungen vor der ersten User-Interaktion zu überprüfen, um damit sicherzustellen, dass nachfolgende API Zugriffe erlaubt sind.
+Als Best Practice wird empfohlen, die gültigen Berechtigungen vor der ersten User-Interaktion zu überprüfen, um damit sicherzustellen, dass nachfolgende API-Zugriffe erlaubt sind. Auch sollte nach dem Ende des Grant-/Update-/Revoke-Flows der aktuelle Stand der Berechtigungen anhand des Endpunkts überprüft werden.
+
+Hinweis: Es ist in seltenen Fällen möglich, dass eine Differenz zwischen dem Resultat des API-Konfiguration-Endpunkts und den Berechtigungen bei der Abfrage von Daten besteht, da die Berechtigungen nicht unmittelbar synchronisiert werden. Die "Source of Truth" ist in dem Fall immer der API-Konfiguration-Endpunkt und nach spätestens 60 Sekunden sollten die Systeme wieder eine einheitliche Datengrundlage haben.
 
 ```json
 {
@@ -211,7 +213,7 @@ Als Best Practice wird empfohlen, die gültigen Berechtigungen vor der ersten Us
 }
 ```
 
-### <a name="access_logging"></a>Access Logging
+### Access Logging
 
 Um gegenüber dem HCP grösstmögliche Transparenz über die Verwendung der Daten zu gewährleisten, muss mit jedem API-Request ein entsprechender Request-Context via HTTP Header Werten mitgesendet werden. Diese Daten sind im Heureka Portal für 180 Tage sichtbar.
 
