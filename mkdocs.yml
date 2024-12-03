@@ -1,0 +1,31 @@
+site_name: dev.heureka.health
+site_url: https://dev.heureka.health
+copyright: Copyright &copy; 2024 - Heureka Health AG
+theme:
+  language: de
+  name: 'material'
+  logo: assets/logo.png
+  favicon: assets/favicon.png
+  palette:
+    primary: custom
+  features:
+    - navigation.expand
+extra_css:
+  - stylesheets/extra.css
+nav:
+  - Über Heureka: index.md
+  - API Zugriff:
+    - Anwendungen: app_access.md
+    - Access Logging: access_logging.md
+    - Webhooks: webhooks.md
+    - mTLS Security: mtls_security.md
+    - Ressourcen: resources.md
+  - Testing: testing.md
+  - Changelog: changelog.md
+markdown_extensions:
+  - admonition
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format

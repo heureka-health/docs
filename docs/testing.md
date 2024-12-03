@@ -4,7 +4,7 @@ Um User:innen ein möglichst gutes Erlebnis rund um die Verwendung von Heureka z
 Dies betrifft vor allem die Autorisierungs-Flows, die sowohl aus dem Heureka Portal als auch serviceseitig initiiert werden können.
 Diese sind nachfolgend beschrieben.
 
-Um die aktuellen Berechtigungen zu überprüfen, muss der (API-Konfiguration)[./README.md#api_configuration] Endpunkt verwendet werden.
+Um die aktuellen Berechtigungen zu überprüfen, muss der [API-Konfiguration](./app_access.md#api-verwendung) Endpunkt verwendet werden.
 
 ## Initiale Freigabe
 
