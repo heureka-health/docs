@@ -1,0 +1,425 @@
+{
+	"info": {
+		"_postman_id": "bdbd9f8d-630f-40ff-abe6-1cad9e92d131",
+		"name": "Heureka - Service",
+		"description": "This is a collection for testing services.\n\n**Hint:** Postman sometimes adds backslashes before the star sign (\\*) in the configuration samples when clicking in and out of this description box. Ignore any backslashes that might get added there (No values which need to be configured contain backslashes).\n\nThe steps involved are:\n\n1. Settings -> Proxy: Set the postman proxy to `tunnel.testing.heureka.health:7000`, ignoring the hosts `api.testing.heureka.health,authorize.testing.heureka.health,token.testing.heureka.health`  \n    \\- this will break the rest of your postman instance, so you need to reset this once you are done testing this collection\n    \n2. Settings -> Certificates: Set client (and CA) certificates. You will have received `.pem`, `.crt` and `.key` files. Use the `.pem` as a CA certificate and add the crt/key combination for the host `*.testing.heureka.health`\n    \n3. Go to the \"Variables\" tab and insert your `clientId` and save\n    \n4. Go to the \"Authorization\" tab and click \"Get new Access Token\" - this will open a browser and you need to log in using your user & password\n    \n5. Run \"API Configuration\" - this will configure the target url for the token that you've just created\n    \n6. You should now be able to run \"Search Patients\". You can then pick the ID of a patient from there and run \"Search Medication Statements by Subject\"",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36167488"
+	},
+	"item": [
+		{
+			"name": "Appointment",
+			"item": [
+				{
+					"name": "Search Appointments by Patient",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{fhirEndpoint}}/Appointment?patient=Patient/hh:X-rP0xvO9MRuL4WQnD1f3WQ85TOU72IPuor1avxihf1TlxZCCBOWNU0s41AHslr0",
+							"host": [
+								"{{fhirEndpoint}}"
+							],
+							"path": [
+								"Appointment"
+							],
+							"query": [
+								{
+									"key": "patient",
+									"value": "Patient/hh:X-rP0xvO9MRuL4WQnD1f3WQ85TOU72IPuor1avxihf1TlxZCCBOWNU0s41AHslr0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Condition",
+			"item": [
+				{
+					"name": "Search Conditions by Patient",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{fhirEndpoint}}/Condition?patient=Patient/hh:gC1lkvJtrsfiUJUNFcybzWQ85TOU72IPuor1avxihf0zC4uUIlAGM-C7D0MuaTlw",
+							"host": [
+								"{{fhirEndpoint}}"
+							],
+							"path": [
+								"Condition"
+							],
+							"query": [
+								{
+									"key": "patient",
+									"value": "Patient/hh:gC1lkvJtrsfiUJUNFcybzWQ85TOU72IPuor1avxihf0zC4uUIlAGM-C7D0MuaTlw"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MedicationStatement",
+			"item": [
+				{
+					"name": "Search Medication Statements by Subject",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{fhirEndpoint}}/MedicationStatement?subject=Patient/hh:X-rP0xvO9MRuL4WQnD1f3WQ85TOU72IPuor1avxihf1TlxZCCBOWNU0s41AHslr0",
+							"host": [
+								"{{fhirEndpoint}}"
+							],
+							"path": [
+								"MedicationStatement"
+							],
+							"query": [
+								{
+									"key": "subject",
+									"value": "Patient/hh:X-rP0xvO9MRuL4WQnD1f3WQ85TOU72IPuor1avxihf1TlxZCCBOWNU0s41AHslr0",
+									"description": "Can also contain the resource type, e.g. Patient/hh:X-rP0xvO9MRuL4WQnD1f3WQ85TOU72IPuor1avxihf1TlxZCCBOWNU0s41AHslr0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Observation",
+			"item": [
+				{
+					"name": "Search Observations by Patient",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{fhirEndpoint}}/Observation?patient=Patient/hh:gC1lkvJtrsfiUJUNFcybzWQ85TOU72IPuor1avxihf0zC4uUIlAGM-C7D0MuaTlw",
+							"host": [
+								"{{fhirEndpoint}}"
+							],
+							"path": [
+								"Observation"
+							],
+							"query": [
+								{
+									"key": "patient",
+									"value": "Patient/hh:gC1lkvJtrsfiUJUNFcybzWQ85TOU72IPuor1avxihf0zC4uUIlAGM-C7D0MuaTlw"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Patient",
+			"item": [
+				{
+					"name": "List Patients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{fhirEndpoint}}/Patient",
+							"host": [
+								"{{fhirEndpoint}}"
+							],
+							"path": [
+								"Patient"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Patient by Birthdate",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{fhirEndpoint}}/Patient?family=Duck&birthdate=1999-01-01",
+							"host": [
+								"{{fhirEndpoint}}"
+							],
+							"path": [
+								"Patient"
+							],
+							"query": [
+								{
+									"key": "family",
+									"value": "Duck"
+								},
+								{
+									"key": "birthdate",
+									"value": "1999-01-01"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Metadata",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{fhirEndpoint}}/metadata",
+					"host": [
+						"{{fhirEndpoint}}"
+					],
+					"path": [
+						"metadata"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API Configuration",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let jsonData = pm.response.json();",
+							"pm.collectionVariables.set(\"fhirEndpoint\", jsonData.fhirEndpoint);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api-configuration",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api-configuration"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "tokenName",
+				"value": "AccessToken",
+				"type": "string"
+			},
+			{
+				"key": "accessTokenUrl",
+				"value": "{{tokenUrl}}/oauth2/token",
+				"type": "string"
+			},
+			{
+				"key": "client_authentication",
+				"value": "body",
+				"type": "string"
+			},
+			{
+				"key": "state",
+				"value": "{{$randomUUID}}",
+				"type": "string"
+			},
+			{
+				"key": "scope",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "authUrl",
+				"value": "{{authUrl}}/authorization/grant",
+				"type": "string"
+			},
+			{
+				"key": "clientSecret",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "{{clientId}}",
+				"type": "string"
+			},
+			{
+				"key": "refreshRequestParams",
+				"value": [
+					{
+						"key": "client_id",
+						"value": "{{clientId}}",
+						"enabled": true,
+						"send_as": "request_body"
+					}
+				],
+				"type": "any"
+			},
+			{
+				"key": "useBrowser",
+				"value": true,
+				"type": "boolean"
+			},
+			{
+				"key": "challengeAlgorithm",
+				"value": "S256",
+				"type": "string"
+			},
+			{
+				"key": "grant_type",
+				"value": "authorization_code",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://api.testing.heureka.health",
+			"type": "string"
+		},
+		{
+			"key": "fhirEndpoint",
+			"value": ""
+		},
+		{
+			"key": "authUrl",
+			"value": "https://portal.testing.heureka.health",
+			"type": "string"
+		},
+		{
+			"key": "tokenUrl",
+			"value": "https://token.testing.heureka.health",
+			"type": "string"
+		},
+		{
+			"key": "clientId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
