@@ -197,7 +197,7 @@ Dieser Endpunkt liefert immer die **aktuell gültigen** Berechtigungen für das 
 
     Als Best Practice wird empfohlen, die gültigen Berechtigungen vor der ersten User-Interaktion zu überprüfen, um damit sicherzustellen, dass nachfolgende API-Zugriffe erlaubt sind. Auch sollte nach dem Ende des Grant-/Update-/Revoke-Flows der aktuelle Stand der Berechtigungen anhand des Endpunkts überprüft werden.
 
-!!! note "Hinweis"
+!!! info "Hinweis"
 
     Es ist in seltenen Fällen möglich, dass eine Differenz zwischen dem Resultat des API-Konfiguration-Endpunkts und den Berechtigungen bei der Abfrage von Daten besteht, da die Berechtigungen nicht unmittelbar synchronisiert werden. Die "Source of Truth" ist in dem Fall immer der API-Konfiguration-Endpunkt und nach spätestens 60 Sekunden sollten die Systeme wieder eine einheitliche Datengrundlage haben.
 

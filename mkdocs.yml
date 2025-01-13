@@ -19,6 +19,7 @@ nav:
     - Access Logging: access_logging.md
     - Webhooks: webhooks.md
     - mTLS Security: mtls_security.md
+    - Troubleshooting: troubleshooting.md
     - Ressourcen: resources.md
   - Testing: testing.md
   - Changelog: changelog.md
